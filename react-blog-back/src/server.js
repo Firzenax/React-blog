@@ -15,6 +15,34 @@ app.get('/api/articles', async (req,res) =>{
     }
 })
 
+// ? str = str.replace(/ +/g, ""); Remove all the whitespace from a string "str"
+// ? str = str.replace(/ +/g, "-"); Remove all the whitespace from a string "str" and replace them with -
+
+app.post('/api/articles/AddNewArticle', async (req,res) =>{
+    const { articleName , articleContent} = req.body
+
+    const newArticleName = articleName.replace(/ +/g,"-")
+
+    await db.collection('articles').insertOne({
+        articleName:newArticleName ,
+        articleAuthor: "Mike",
+        articleDetails: {
+            articleContent: articleContent,
+            articleUpvote: 0,
+            articleComments: []
+        }
+    })
+
+    const articles = await db.collection('articles').find().toArray();
+
+    if(articles){
+        res.json(articles)
+    }
+    else{
+        res.sendStatus(404)
+    }
+})
+
 app.get('/api/articles/:name', async (req, res) => {
     const { name } = req.params;
 
