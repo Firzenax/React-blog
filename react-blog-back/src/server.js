@@ -15,6 +15,33 @@ app.get('/api/articles', async (req,res) =>{
     }
 })
 
+app.get('/api/articles/:articleName', async (req, res) => {
+    const { articleName } = req.params;
+
+    const article = await db.collection('articles').findOne({ articleName });
+
+    if (article) {
+        res.json(article);
+    } else {
+        res.sendStatus(404);
+    }
+});
+
+app.put('/api/articles/:articleName/upvote', async (req, res) => {
+    const { articleName } = req.params;
+   
+    await db.collection('articles').updateOne({ articleName }, {
+        $inc: { upvotes: 1 },
+    });
+    const article = await db.collection('articles').findOne({ articleName });
+
+    if (article) {
+        res.send(`The ${articleName} article now has ${article.upvotes} upvotes!!!`);
+    } else {
+        res.send('That article doesn\'t exist');
+    }
+});
+
 // ? str = str.replace(/ +/g, ""); Remove all the whitespace from a string "str"
 // ? str = str.replace(/ +/g, "-"); Remove all the whitespace from a string "str" and replace them with -
 
@@ -43,32 +70,9 @@ app.post('/api/articles/AddNewArticle', async (req,res) =>{
     }
 })
 
-app.get('/api/articles/:articleName', async (req, res) => {
-    const { articleName } = req.params;
 
-    const article = await db.collection('articles').findOne({ articleName });
 
-    if (article) {
-        res.json(article);
-    } else {
-        res.sendStatus(404);
-    }
-});
 
-app.put('/api/articles/:name/upvote', async (req, res) => {
-    const { name } = req.params;
-   
-    await db.collection('articles').updateOne({ name }, {
-        $inc: { upvotes: 1 },
-    });
-    const article = await db.collection('articles').findOne({ name });
-
-    if (article) {
-        res.send(`The ${name} article now has ${article.upvotes} upvotes!!!`);
-    } else {
-        res.send('That article doesn\'t exist');
-    }
-});
 
 app.post('/api/articles/:name/comments', async (req, res) => {
     const { name } = req.params;
