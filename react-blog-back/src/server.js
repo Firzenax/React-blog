@@ -4,6 +4,17 @@ import { db, connectToDb } from './db.js';
 const app = express();
 app.use(express.json());
 
+app.get('/api/articles', async (req,res) =>{
+    const articles = await db.collection('articles').find().toArray();
+
+    if(articles){
+        res.json(articles)
+    }
+    else{
+        res.sendStatus(404)
+    }
+})
+
 app.get('/api/articles/:name', async (req, res) => {
     const { name } = req.params;
 
