@@ -31,12 +31,12 @@ app.put('/api/articles/:articleName/upvote', async (req, res) => {
     const { articleName } = req.params;
    
     await db.collection('articles').updateOne({ articleName }, {
-        $inc: { upvotes: 1 },
+        $inc: { "articleDetails.articleUpvote": 1 },
     });
     const article = await db.collection('articles').findOne({ articleName });
 
     if (article) {
-        res.send(`The ${articleName} article now has ${article.upvotes} upvotes!!!`);
+        res.send(`The ${articleName} article now has ${article.articleDetails.articleUpvote} upvotes!!!`);
     } else {
         res.send('That article doesn\'t exist');
     }
@@ -70,25 +70,52 @@ app.post('/api/articles/AddNewArticle', async (req,res) =>{
     }
 })
 
+app.post('/api/articles/:articleName/comment', async (req, res) => {
+    const { articleName } = req.params;
+    const { commentAuthor, comment } = req.body;
 
-
-
-
-app.post('/api/articles/:name/comments', async (req, res) => {
-    const { name } = req.params;
-    const { postedBy, text } = req.body;
-
-    await db.collection('articles').updateOne({ name }, {
-        $push: { comments: { postedBy, text } },
+    await db.collection('articles').updateOne({ articleName }, {
+        $push: { "articleDetails.articleComments": { commentAuthor, comment } },
     });
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articles').findOne({ articleName });
 
     if (article) {
-        res.send(article.comments);
+        res.send(article);
     } else {
         res.send('That article doesn\'t exist!');
     }
 });
+
+app.delete('/api/articles/:articleName/removeComment',async (req,res)=>{
+    const {articleName} = req.params
+    const { commentAuthor,comment} = req.body
+
+    await db.collection('articles').updateOne({articleName},{
+        $pull: { "articleDetails.articleComments":{commentAuthor,comment}}
+    })
+
+    const article = await db.collection('articles').findOne({ articleName });
+
+    if (article) {
+        res.send(article);
+    } else {
+        res.send('That article doesn\'t exist!');
+    }
+})
+
+app.delete('/api/articles/:articleName/removeArticle',async (req,res)=>{
+    const {articleName} = req.params
+
+    await db.collection('articles').deleteOne({articleName:articleName})
+
+    const article = await db.collection('articles').find({}).toArray();
+
+    if (article) {
+        res.send(article);
+    } else {
+        res.send('That article doesn\'t exist!');
+    }
+})
 
 connectToDb(() => {
     console.log('Successfully connected to database!');
