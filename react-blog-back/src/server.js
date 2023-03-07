@@ -43,10 +43,10 @@ app.post('/api/articles/AddNewArticle', async (req,res) =>{
     }
 })
 
-app.get('/api/articles/:name', async (req, res) => {
-    const { name } = req.params;
+app.get('/api/articles/:articleName', async (req, res) => {
+    const { articleName } = req.params;
 
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articles').findOne({ articleName });
 
     if (article) {
         res.json(article);
