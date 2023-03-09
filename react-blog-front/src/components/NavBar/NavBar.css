@@ -1,0 +1,36 @@
+.navBar {
+  margin-bottom: 16px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #304d6d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+li {
+  float: left;
+  margin: 8px;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border-radius: 16px;
+}
+
+li a:hover:not(.active) {
+  background-color: #545e75;
+}
+
+.active {
+  background-color: #545e75;
+}
