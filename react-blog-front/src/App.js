@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar/NavBar";
 import MainPage from "./pages/MainPage";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import ArticlePage from "./pages/ArticlePage";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/:articleName",
+    element: <ArticlePage />,
   },
   {
     path: "/about",

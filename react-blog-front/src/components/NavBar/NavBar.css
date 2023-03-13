@@ -28,9 +28,11 @@ li a {
 }
 
 li a:hover:not(.active) {
-  background-color: #545e75;
+  animation: shadeOn 0.3s forwards;
 }
 
-.active {
-  background-color: #545e75;
+@keyframes shadeOn {
+  to {
+    background-color: #545e75;
+  }
 }

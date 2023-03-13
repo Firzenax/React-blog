@@ -50,17 +50,19 @@ app.put("/api/articles/:articleName/upvote", async (req, res) => {
 // ? str = str.replace(/ +/g, "-"); Remove all the whitespace from a string "str" and replace them with -
 
 app.post("/api/articles/AddNewArticle", async (req, res) => {
-  const { articleName, articleContent } = req.body;
+  const { articleName, articleAuthor, articleHeader, articleContent } =
+    req.body;
 
-  const newArticleName = articleName.replace(/ +/g, "-");
+  const newArticleName = articleName?.replace(/ +/g, "-");
 
   await db.collection("articles").insertOne({
     articleName: newArticleName,
-    articleAuthor: "Mike",
+    articleAuthor: articleAuthor,
     articleDetails: {
       articleContent: articleContent,
       articleUpvote: 0,
       articleComments: [],
+      articleHeader: articleHeader,
     },
   });
 
