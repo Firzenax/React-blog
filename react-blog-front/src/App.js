@@ -8,24 +8,47 @@ import MainPage from "./pages/MainPage";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import ArticlePage from "./pages/ArticlePage";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <MainPage />,
-  },
-  {
-    path: "/:articleName",
-    element: <ArticlePage />,
-  },
-  {
-    path: "/about",
-  },
-]);
+import AddArticlePage from "./pages/AddArticlePage";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import useUser from "./hooks/useUser";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const { user } = useUser();
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <MainPage />,
+    },
+    {
+      path: "/:articleName",
+      element: <ArticlePage />,
+    },
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+    {
+      path: "/signup",
+      element: <SignUpPage />,
+    },
+    {
+      path: "/addArticle",
+      element: (
+        <ProtectedRoute user={user}>
+          <AddArticlePage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/about",
+    },
+  ]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>

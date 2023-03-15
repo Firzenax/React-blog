@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import {
   Heading,
   LinkBox,
@@ -8,6 +7,7 @@ import {
   Center,
   Box,
   Spinner,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import useArticles from "../../hooks/useArticles";
 
@@ -27,25 +27,32 @@ const ArticlesList = () => {
     <Center>
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         {data?.map((article, i) => (
-          <Link to={`/${article.articleName}`} key={i}>
-            <GridItem>
-              <LinkBox
-                as="article"
-                maxW="sm"
-                p="5"
-                borderWidth="1px"
-                rounded="md"
-              >
-                <Heading size="md" my="2">
+          <GridItem key={i}>
+            <LinkBox
+              h={200}
+              as="article"
+              w={500}
+              p="5"
+              borderWidth="1px"
+              rounded="md"
+            >
+              <Heading>
+                <LinkOverlay href={`/${article.articleName}`} size="md" my="2">
                   {article.articleName}
-                </Heading>
-                <Text>{article.articleDetails.articleHeader}</Text>
-                <Box as="a" color="teal.400" href="#" fontWeight="bold">
-                  Read this article
-                </Box>
-              </LinkBox>
-            </GridItem>
-          </Link>
+                </LinkOverlay>
+              </Heading>
+
+              <Text>{article.articleDetails.articleHeader}</Text>
+              <Box
+                as="a"
+                color="teal.400"
+                href={`/${article.articleName}`}
+                fontWeight="bold"
+              >
+                Read this article
+              </Box>
+            </LinkBox>
+          </GridItem>
         ))}
       </Grid>
     </Center>

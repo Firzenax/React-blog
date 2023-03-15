@@ -1,10 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyByyYeBhKhAZje5huI8MAUSIJ3wu1T4VZo",
+  authDomain: "react-blog-c4668.firebaseapp.com",
+  projectId: "react-blog-c4668",
+  storageBucket: "react-blog-c4668.appspot.com",
+  messagingSenderId: "466078864839",
+  appId: "1:466078864839:web:b7006ca747ea00ffeb75e2",
+  measurementId: "G-TZ140JQVB7",
+};
+
+// Initialize Firebase
+// eslint-disable-next-line no-unused-vars
+const app = initializeApp(firebaseConfig);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
