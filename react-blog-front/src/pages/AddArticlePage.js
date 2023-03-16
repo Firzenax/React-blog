@@ -31,25 +31,20 @@ const AddArticlePage = () => {
       articleHeader: articleHeader,
     });
   }
-  const { error, isLoading, mutate } = useMutation({
+  const { error, isLoading, mutateAsync } = useMutation({
     mutationFn: createArticle,
   });
 
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  const postArticle = () => {
+  const postArticle = async () => {
     if (
       articleName !== "" &&
       articleHeader !== "" &&
       articleAuthor !== "" &&
       articleContent !== ""
     ) {
-      mutate();
-      sleep(1000).then(() => {
-        navigate("/");
-      });
+      await mutateAsync();
+
+      navigate("/");
     }
   };
 

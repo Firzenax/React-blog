@@ -1,41 +1,30 @@
-import { AddIcon } from "@chakra-ui/icons";
-import { Box, Button, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import {
+  Box,
+  Center,
+  Grid,
+  GridItem,
+  Heading,
+  Spinner,
+} from "@chakra-ui/react";
+
 import ArticlesList from "../components/ArticlesList/ArticlesList";
+import ButtonsWhenUser from "../components/ButtonsWhenUser/ButtonsWhenUser";
+import ButtonWhenNoUser from "../components/ButtonsWhenUser/ButtonWhenNoUser";
 import useUser from "../hooks/useUser";
 
 const MainPage = () => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
+
+  if (isLoading)
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
 
   return (
-    <Grid gridColumn="repeat(1,1fr)" gap={4}>
-      {user ? (
-        <GridItem colSpan={1}>
-          <Link to={"/addArticle"}>
-            <Button
-              leftIcon={<AddIcon />}
-              colorScheme="teal"
-              marginRight={16}
-              float="right"
-            >
-              Create a new article
-            </Button>
-          </Link>
-        </GridItem>
-      ) : (
-        <GridItem colSpan={1}>
-          <Link to={"/login"}>
-            <Button
-              leftIcon={<AddIcon />}
-              colorScheme="teal"
-              marginRight={16}
-              float="right"
-            >
-              Connect to create an article
-            </Button>
-          </Link>
-        </GridItem>
-      )}
+    <Grid gridColumn="repeat(1,1fr)" gap={4} marginBottom={4}>
+      {user ? <ButtonsWhenUser /> : <ButtonWhenNoUser />}
 
       <GridItem colSpan={1}>
         <Center>
@@ -43,7 +32,7 @@ const MainPage = () => {
             <Center>
               <Heading margin={8}>See our articles</Heading>
             </Center>
-            <ArticlesList />;
+            <ArticlesList />
           </Box>
         </Center>
       </GridItem>
